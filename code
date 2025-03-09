@@ -1,0 +1,96 @@
+import sys
+
+def options_atm():
+    print("\nSelect an option:")
+    print("1: Check Balance")
+    print("2: Withdraw Money")
+    print("3: Deposit Money")
+    print("4: Transfer Money")
+    print("5: Exit")
+
+def atm():
+    balance = 1000  # Initial balance
+    print("Welcome to the ATM!")
+
+    while True:
+        options_atm()
+        option = input("Enter option number: ").strip()
+
+        if option == "1":
+            print(f"\nYour current balance is ${balance}")
+
+        elif option == "2":
+            try:
+                withdraw = float(input("Enter amount to withdraw: "))
+                if withdraw <= 0:
+                    print("Invalid amount! Please enter a positive number.")
+                elif withdraw <= balance:
+                    balance -= withdraw
+                    print(f"Withdrawal successful! Take your ${withdraw}.")
+                    print(f"Your current balance is ${balance}")
+                else:
+                    print("Insufficient funds!")
+            except ValueError:
+                print("Invalid input! Please enter a numeric amount.")
+
+        elif option == "3":
+            try:
+                deposit = float(input("Enter amount to deposit: "))
+                if deposit <= 0:
+                    print("Invalid amount! Please enter a positive number.")
+                else:
+                    balance += deposit
+                    print(f"Deposit successful! Your new balance is ${balance}")
+            except ValueError:
+                print("Invalid input! Please enter a numeric amount.")
+
+        elif option == "4":
+            try:
+                account = input("Enter account number to transfer to: ").strip()
+                if not account.isdigit():
+                    print("Invalid account number! Please enter digits only.")
+                    continue
+
+                print("\nSelect a bank:")
+                print("1: Kasikorn Bank")
+                print("2: Krungthai Bank")
+                print("3: Bangkok Bank")
+                print("4: Commercial Bank")
+                print("5: PromptPay")
+                bank_option = input("Enter bank option number: ").strip()
+
+                if bank_option not in ["1", "2", "3", "4", "5"]:
+                    print("Invalid bank option! Please choose a valid bank.")
+                    continue
+
+                transfer = float(input("Enter amount to transfer: "))
+                if transfer <= 0:
+                    print("Invalid amount! Please enter a positive number.")
+                    continue
+
+                if transfer > balance:
+                    print("Insufficient balance! Transfer not possible.")
+                    continue
+
+                print("\nPlease check your information before confirming the transfer:")
+                print(f"Account number: {account}")
+                print(f"Bank option: {bank_option}")
+                print(f"Transfer amount: ${transfer}")
+                confirm = input("Confirm transfer? Type 'y' to proceed, 'n' to cancel: ").strip().lower()
+
+                if confirm == "y":
+                    balance -= transfer
+                    print(f"Transfer successful! Your new balance is ${balance}")
+                else:
+                    print("Transfer canceled.")
+            except ValueError:
+                print("Invalid input! Please enter numeric values.")
+
+        elif option == "5":
+            print("\nThank you for using the ATM. Goodbye!")
+            sys.exit()
+
+        else:
+            print("Invalid option! Please select a valid number (1-5).")
+
+atm()
